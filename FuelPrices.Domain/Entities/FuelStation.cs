@@ -1,5 +1,4 @@
-﻿using FuelPrices.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FuelPrices.Domain.Entities
 {
@@ -7,16 +6,12 @@ namespace FuelPrices.Domain.Entities
     {
         public int Id { get; set; }
 
-        [Required]
         public int FuelCompanyId { get; set; }
-        [Required]
         public FuelCompany FuelCompany { get; set; } = null!;
 
-        public ICollection<FuelPrice> FuelPrices { get; set; }
-        = new HashSet<FuelPrice>();
+        public ICollection<FuelPrice> FuelPrices { get; set; } = new HashSet<FuelPrice>();
 
-        public ICollection<StationEmployee> Employees { get; set; }
-            = new HashSet<StationEmployee>();
+        public ICollection<StationEmployee> StationEmployees { get; set; } = new HashSet<StationEmployee>();
 
         [Required]
         [StringLength(200)]
