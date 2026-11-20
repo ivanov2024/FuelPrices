@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FuelPrices.Domain.Entities
 {
@@ -13,12 +8,11 @@ namespace FuelPrices.Domain.Entities
         public int Id { get; set; }
 
         [Required]
-        [StringLength(300)]
-        public string FullName { get; set; } = null!;
+        public string UserId { get; set; } = null!;
 
         [Required]
-        public int StationId { get; set; }
-        [Required]
-        public FuelStation Station { get; set; } = null!;
+        public int FuelStationId { get; set; }
+
+        public FuelStation FuelStation { get; set; } = null!;
     }
 }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FuelPrices.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FuelPrices.Domain.Entities
 {
@@ -15,6 +11,9 @@ namespace FuelPrices.Domain.Entities
         [Required]
         [Range(1.00, 999.00, ErrorMessage = "Price must be between 1.00 and 999.00")]
         public decimal Price { get; set; }
+
+        [Required]
+        public FuelType FuelType { get; set; }
 
         [Required]
         public int FuelStationId { get; set; }

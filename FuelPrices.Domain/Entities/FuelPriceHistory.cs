@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FuelPrices.Domain.Entities
 {
@@ -16,6 +11,10 @@ namespace FuelPrices.Domain.Entities
         public int FuelPriceId { get; set; }
         [Required]
         public FuelPrice FuelPrice { get; set; } = null!;
+
+        [Required]
+        [Range(typeof(decimal), "0.01", "999.99")]
+        public decimal Price { get; set; }
 
         [Required]
         public DateTime ChangedAt { get; set; }

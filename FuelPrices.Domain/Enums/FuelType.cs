@@ -5,14 +5,14 @@
     /// </summary>
     public enum FuelType
     {
-        Gasoline,
+        Gasoline95,
+        Gasoline98,
+        Gasoline100,
         Diesel,
-        Petrol,
+        LPG,
+        CNG,
+        AdBlue,
         Electric,
-        Premium,
-        Ethanol85,
-        Premium95,
-        Euro95,
-        AdBlue
+        Ethanol85
     }
 }
