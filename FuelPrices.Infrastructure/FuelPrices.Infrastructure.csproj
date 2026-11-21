@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FuelPrices.Application\FuelPrices.Application.csproj" />
     <ProjectReference Include="..\FuelPrices.Domain\FuelPrices.Domain.csproj" />
   </ItemGroup>
 

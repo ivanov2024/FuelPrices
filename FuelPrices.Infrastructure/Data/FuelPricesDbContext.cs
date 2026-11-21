@@ -1,4 +1,5 @@
-﻿using FuelPrices.Domain.Entities;
+﻿using FuelPrices.Application.Common.Interfaces;
+using FuelPrices.Domain.Entities;
 using FuelPrices.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,7 @@ using static FuelPrices.Infrastructure.Data.ConnectionString;
 
 namespace FuelPrices.Infrastructure.Data
 {
-    public class FuelPricesDbContext : IdentityDbContext<ApplicationUser>
+    public class FuelPricesDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         public FuelPricesDbContext() { }
 
