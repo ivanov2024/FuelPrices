@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FuelPrices.Application.DTOs.Prices;
 
 namespace FuelPrices.Application.Interfaces
 {
-    internal interface IFuelPriceService
+    public interface IFuelPriceService
     {
+        Task<List<FuelPriceDto>> GetFuelPriceAsync(int stationId, CancellationToken cancellationToken = default);
+        Task<List<FuelPriceHistoryDto>> GetFuelPriceHistoryAsync(int fuelPriceId, CancellationToken cancellationToken = default);
+        Task UpdateFuelPriceAsync(UpdateFuelPriceDto dto, CancellationToken cancellationToken = default);
     }
 }

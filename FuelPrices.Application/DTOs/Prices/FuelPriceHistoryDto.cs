@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FuelPrices.Application.DTOs.Prices
+﻿namespace FuelPrices.Application.DTOs.Prices
 {
-    internal class FuelPriceHistoryDto
+    public class FuelPriceHistoryDto
     {
+        public int Id { get; set; }
+        public int FuelPriceId { get; set; }
+        public decimal Price { get; set; }
+        public DateTime ChangedAt { get; set; }
     }
 }

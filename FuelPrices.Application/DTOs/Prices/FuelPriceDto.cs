@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FuelPrices.Domain.Enums;
 
 namespace FuelPrices.Application.DTOs.Prices
 {
-    internal class FuelPriceDto
+    public class FuelPriceDto
     {
+        public int Id { get; set; }
+        public decimal Price { get; set; }
+        public FuelType FuelType { get; set; }
+        public DateTime LastUpdated { get; set; }
+        public int FuelStationId { get; set; }
     }
 }

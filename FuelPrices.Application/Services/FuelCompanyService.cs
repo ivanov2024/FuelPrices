@@ -11,13 +11,10 @@ namespace FuelPrices.Application.Services
         private readonly IApplicationDbContext _context;
 
         public FuelCompanyService(IApplicationDbContext context)
-        {
-            _context = context;
-        }
+            => _context = context;
 
         public async Task<List<FuelCompanyDto>> GetCompaniesAsync(CancellationToken cancellationToken = default)
-        {
-            return await _context.FuelCompanies
+            => await _context.FuelCompanies
                 .AsNoTracking()
                 .OrderBy(c => c.Name)
                 .Select(c => new FuelCompanyDto
@@ -27,11 +24,9 @@ namespace FuelPrices.Application.Services
                     Information = c.Information
                 })
                 .ToListAsync(cancellationToken);
-        }
 
         public async Task<FuelCompanyDto?> GetCompanyByIdAsync(int id, CancellationToken cancellationToken = default)
-        {
-            return await _context.FuelCompanies
+            => await _context.FuelCompanies
                 .AsNoTracking()
                 .Where(c => c.Id == id)
                 .Select(c => new FuelCompanyDto
@@ -41,7 +36,6 @@ namespace FuelPrices.Application.Services
                     Information = c.Information
                 })
                 .FirstOrDefaultAsync(cancellationToken);
-        }
 
         public async Task<FuelCompanyDto> CreateCompanyAsync(CreateFuelCompanyDto dto, CancellationToken cancellationToken = default)
         {
