@@ -4,7 +4,6 @@ namespace FuelPrices.Application.DTOs.Stations
 {
     public class CreateFuelStationDto
     {
-        [Required]
         public int FuelCompanyId { get; set; }
 
         [Required]

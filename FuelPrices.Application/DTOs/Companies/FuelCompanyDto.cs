@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FuelPrices.Application.DTOs.Companies
+﻿namespace FuelPrices.Application.DTOs.Companies
 {
     public class FuelCompanyDto
     {

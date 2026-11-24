@@ -13,9 +13,10 @@ namespace FuelPrices.Application.Services
         public FuelPriceService(IApplicationDbContext context)
             => _context = context;
 
-        public async Task<List<FuelPriceDto>> GetFuelPriceAsync(int stationId, CancellationToken cancellationToken = default)
+        public async Task<List<FuelPriceDto>> GetFuelPricesByStationIdAsync(int stationId, CancellationToken cancellationToken = default)
             => await _context
                 .FuelPrices
+                .AsNoTracking()
                 .Where(fp => fp.FuelStationId == stationId)
                 .Select(fp => new FuelPriceDto
                 {
@@ -30,7 +31,9 @@ namespace FuelPrices.Application.Services
         public async Task<List<FuelPriceHistoryDto>> GetFuelPriceHistoryAsync(int fuelPriceId, CancellationToken cancellationToken = default)
             => await _context
                 .FuelPriceHistories
+                .AsNoTracking()
                 .Where(fph => fph.FuelPriceId == fuelPriceId)
+                .OrderBy(fph => fph.ChangedAt)
                 .Select(fph => new FuelPriceHistoryDto
                 {
                     Id = fph.Id,
@@ -40,6 +43,40 @@ namespace FuelPrices.Application.Services
                 })
                 .ToListAsync(cancellationToken);
 
+        public async Task<FuelPriceDto> CreateFuelPriceAsync(CreateFuelPriceDto dto, CancellationToken cancellationToken = default)
+        {
+            bool stationExists 
+                = await _context
+                .FuelStations
+                .AsNoTracking()
+                .AnyAsync(s => s.Id == dto.FuelStationId, cancellationToken);
+
+            if(!stationExists)
+            {
+                throw new KeyNotFoundException($"Fuel station with ID '{dto.FuelStationId}' does not exist.");
+            }
+
+            var fuelPrice = new FuelPrice
+            {
+                Price = dto.Price,
+                FuelType = dto.FuelType,
+                LastUpdated = DateTime.UtcNow,
+                FuelStationId = dto.FuelStationId
+            };
+
+            await _context.FuelPrices.AddAsync(fuelPrice, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return new FuelPriceDto
+            {
+                Id = fuelPrice.Id,
+                Price = fuelPrice.Price,
+                FuelType = fuelPrice.FuelType,
+                LastUpdated = fuelPrice.LastUpdated,
+                FuelStationId = fuelPrice.FuelStationId
+            };
+        }
+
         public async Task UpdateFuelPriceAsync(UpdateFuelPriceDto dto, CancellationToken cancellationToken = default)
         {
             var fuelPrice = await _context.FuelPrices
@@ -48,6 +85,11 @@ namespace FuelPrices.Application.Services
             if (fuelPrice == null)
             {
                 throw new KeyNotFoundException($"Fuel price with ID '{dto.Id}' does not exist.");
+            }
+
+            if (fuelPrice.Price == dto.Price)
+            {
+                throw new InvalidOperationException("The new price is the same as the current price. No update is necessary.");
             }
 
             var historyRecord = new FuelPriceHistory
