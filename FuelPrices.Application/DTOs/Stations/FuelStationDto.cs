@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FuelPrices.Application.DTOs.Stations
+﻿namespace FuelPrices.Application.DTOs.Stations
 {
-    internal class FuelStationDto
+    public class FuelStationDto
     {
+        public int Id { get; set; }
+        public int FuelCompanyId { get; set; }
+        public string CompanyName { get; set; } = null!;
+        public string Location { get; set; } = null!;
     }
 }

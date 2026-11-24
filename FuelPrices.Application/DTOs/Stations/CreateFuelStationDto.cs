@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FuelPrices.Application.DTOs.Stations
 {
-    internal class CreateFuelStationDto
+    public class CreateFuelStationDto
     {
+        [Required]
+        public int FuelCompanyId { get; set; }
+
+        [Required]
+        [StringLength(200, MinimumLength = 3)]
+        public string Location { get; set; } = null!;
     }
 }

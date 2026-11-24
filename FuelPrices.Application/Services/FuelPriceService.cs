@@ -12,7 +12,6 @@ namespace FuelPrices.Application.Services
 
         public FuelPriceService(IApplicationDbContext context)
             => _context = context;
-        
 
         public async Task<List<FuelPriceDto>> GetFuelPriceAsync(int stationId, CancellationToken cancellationToken = default)
             => await _context
@@ -43,8 +42,7 @@ namespace FuelPrices.Application.Services
 
         public async Task UpdateFuelPriceAsync(UpdateFuelPriceDto dto, CancellationToken cancellationToken = default)
         {
-            var fuelPrice = await _context
-                .FuelPrices
+            var fuelPrice = await _context.FuelPrices
                 .FirstOrDefaultAsync(fp => fp.Id == dto.Id, cancellationToken);
 
             if (fuelPrice == null)
@@ -63,7 +61,7 @@ namespace FuelPrices.Application.Services
 
             fuelPrice.Price = dto.Price;
             fuelPrice.LastUpdated = DateTime.UtcNow;
-                
+
             await _context.SaveChangesAsync(cancellationToken);
         }
     }
