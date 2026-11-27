@@ -11,7 +11,7 @@ namespace FuelPrices.Infrastructure.Data.Configurations
             builder.HasKey(fp => fp.Id);
 
             builder.Property(fp => fp.Price)
-                .HasPrecision(18, 2);
+                .HasPrecision(18, 3);
 
             builder.Property(fp => fp.LastUpdated)
                 .HasDefaultValueSql("GETUTCDATE()");

@@ -24,6 +24,7 @@ namespace FuelPrices.Application.Services
             return await _context.FuelStations
                 .AsNoTracking()
                 .Where(s => s.Location.Contains(location))
+                .OrderBy(s => s.Location)
                 .Select(s => new FuelStationDto
                 {
                     Id = s.Id,
@@ -39,6 +40,7 @@ namespace FuelPrices.Application.Services
             return await _context.FuelStations
                 .AsNoTracking()
                 .Where(s => s.FuelCompanyId == fuelCompanyId)
+                .OrderBy(s => s.Location)
                 .Select(s => new FuelStationDto
                 {
                     Id = s.Id,

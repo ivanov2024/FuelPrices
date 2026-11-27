@@ -74,6 +74,14 @@ namespace FuelPrices.Application.Services
                 throw new KeyNotFoundException($"Fuel company with Id {id} was not found.");
             }
 
+            bool duplicateExists = await _context.FuelCompanies
+                .AnyAsync(c => c.Name == dto.Name && c.Id != id, cancellationToken);
+
+            if (duplicateExists)
+            {
+                throw new InvalidOperationException($"Company with name '{dto.Name}' already exists.");
+            }
+
             company.Name = dto.Name;
             company.Information = dto.Information;
 

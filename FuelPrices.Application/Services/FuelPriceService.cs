@@ -18,6 +18,7 @@ namespace FuelPrices.Application.Services
                 .FuelPrices
                 .AsNoTracking()
                 .Where(fp => fp.FuelStationId == stationId)
+                .OrderBy(fp => fp.FuelType)
                 .Select(fp => new FuelPriceDto
                 {
                     Id = fp.Id,
@@ -33,7 +34,7 @@ namespace FuelPrices.Application.Services
                 .FuelPriceHistories
                 .AsNoTracking()
                 .Where(fph => fph.FuelPriceId == fuelPriceId)
-                .OrderBy(fph => fph.ChangedAt)
+                .OrderByDescending(fph => fph.ChangedAt)
                 .Select(fph => new FuelPriceHistoryDto
                 {
                     Id = fph.Id,
@@ -45,15 +46,20 @@ namespace FuelPrices.Application.Services
 
         public async Task<FuelPriceDto> CreateFuelPriceAsync(CreateFuelPriceDto dto, CancellationToken cancellationToken = default)
         {
-            bool stationExists 
-                = await _context
-                .FuelStations
-                .AsNoTracking()
+            bool stationExists = await _context.FuelStations
                 .AnyAsync(s => s.Id == dto.FuelStationId, cancellationToken);
 
-            if(!stationExists)
+            if (!stationExists)
             {
                 throw new KeyNotFoundException($"Fuel station with ID '{dto.FuelStationId}' does not exist.");
+            }
+
+            bool priceExists = await _context.FuelPrices
+                .AnyAsync(fp => fp.FuelStationId == dto.FuelStationId && fp.FuelType == dto.FuelType, cancellationToken);
+
+            if (priceExists)
+            {
+                throw new InvalidOperationException($"A price for '{dto.FuelType}' already exists at station '{dto.FuelStationId}'.");
             }
 
             var fuelPrice = new FuelPrice
@@ -87,10 +93,7 @@ namespace FuelPrices.Application.Services
                 throw new KeyNotFoundException($"Fuel price with ID '{dto.Id}' does not exist.");
             }
 
-            if (fuelPrice.Price == dto.Price)
-            {
-                throw new InvalidOperationException("The new price is the same as the current price. No update is necessary.");
-            }
+            if (fuelPrice.Price == dto.Price) return;
 
             var historyRecord = new FuelPriceHistory
             {

@@ -14,6 +14,9 @@ namespace FuelPrices.Infrastructure.Data.Configurations
                 .IsRequired()
                 .HasMaxLength(100);
 
+            builder.HasIndex(fc => fc.Name)
+                .IsUnique();
+
             builder.Property(fc => fc.Information)
                 .IsRequired()
                 .HasMaxLength(300);
